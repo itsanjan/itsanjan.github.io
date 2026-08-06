@@ -99,7 +99,9 @@ function js() {
 
 // Tasks
 const vendor = gulp.parallel(vendorBootstrap, vendorFontAwesome);
-const css = gulp.parallel(cssExpanded, cssMinified);
+// Run sequentially: gulp-sass's underlying compiler shares state across
+// concurrent invocations and corrupts variable resolution when run in parallel.
+const css = gulp.series(cssExpanded, cssMinified);
 gulp.task("vendor", vendor);
 gulp.task("css", css);
 gulp.task("js", js);

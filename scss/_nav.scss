@@ -1,12 +1,26 @@
 #sideNav {
+  background-color: var(--sidebar-bg) !important;
+  background-image: linear-gradient(180deg, var(--sidebar-bg) 0%, var(--sidebar-bg-lower) 100%);
+
   .navbar-nav .nav-item .nav-link {
-    font-weight: 800;
-    letter-spacing: 0.05rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
+    color: var(--sidebar-text);
+    transition: color 0.15s ease;
+    &:hover,
+    &:focus-visible {
+      color: var(--primary);
+    }
+    &.active {
+      color: var(--primary);
+    }
   }
   .navbar-toggler {
-    &:focus {
-      outline-color: lighten($primary, 15%);
+    border-color: var(--sidebar-text-muted);
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
   }
 }
@@ -28,10 +42,12 @@
 
       margin: auto auto 0;
       padding: 0.5rem;
+      color: var(--sidebar-text) !important;
       .img-profile {
         max-width: 10rem;
         max-height: 10rem;
-        border: 0.5rem solid fade-out($white, 0.8);
+        border: 0.35rem solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
       }
     }
     .navbar-collapse {

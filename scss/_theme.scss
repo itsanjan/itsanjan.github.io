@@ -1,0 +1,38 @@
+// Theme tokens
+// Sidebar stays a fixed dark shade in both modes; the content pane adapts.
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #ffffff;
+  --bg-alt: #{$card-bg-hover};
+  --text: #2b2e33;
+  --text-muted: #666f7a;
+  --heading: #1a1c20;
+  --border: #{$card-border};
+
+  --primary: #{$primary};
+  --primary-dark: #9c4025;
+  --on-primary: #{$white};
+  --icon-bg: #{$gray-700};
+
+  --sidebar-bg: #{$sidebar-bg};
+  --sidebar-bg-lower: #{$sidebar-bg-lower};
+  --sidebar-text: #{$sidebar-text};
+  --sidebar-text-muted: #{$sidebar-text-muted};
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --bg-alt: #1b1e23;
+    --text: #d7dadf;
+    --text-muted: #97a0ac;
+    --heading: #f1f2f4;
+    --border: #2a2e35;
+
+    --primary: #e2895f;
+    --primary-dark: #f2a980;
+    --icon-bg: #2a2e35;
+  }
+}

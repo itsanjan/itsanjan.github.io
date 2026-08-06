@@ -1,9 +1,15 @@
 // Global styling for this template
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @include body-font;
   padding-top: 54px;
-  color: $gray-600;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 @media (min-width: 992px) {
   body {
@@ -21,51 +27,58 @@ h6 {
   @include heading-font;
   font-weight: 700;
   text-transform: uppercase;
-  color: $gray-800;
+  letter-spacing: 0.02em;
+  color: var(--heading);
 }
 
 h1 {
-  font-size: 6rem;
-  line-height: 5.5rem;
+  font-size: 5rem;
+  line-height: 1;
 }
 
 h2 {
-  font-size: 3.5rem;
+  font-size: 3rem;
 }
 
 h3 {
-  font-size: 2rem;
+  font-size: 1.65rem;
 }
 
 p.lead {
   font-size: 1.15rem;
   font-weight: 400;
+  color: var(--text-muted);
 }
 
 .subheading {
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   @include heading-font;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  color: var(--text-muted);
 }
 
 .social-icons {
   a {
-    display: inline-block;
-    height: 3.5rem;
-    width: 3.5rem;
-    background-color: $gray-700;
-    color: $white !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.25rem;
+    width: 3.25rem;
+    background-color: var(--icon-bg);
+    color: var(--on-primary) !important;
     border-radius: 100%;
-    text-align: center;
-    font-size: 1.5rem;
-    line-height: 3.5rem;
+    font-size: 1.35rem;
     margin-right: 1rem;
+    transition: background-color 0.15s ease, transform 0.15s ease;
     &:last-child {
       margin-right: 0;
     }
-    &:hover {
-      background-color: $primary;
+    &:hover,
+    &:focus-visible {
+      background-color: var(--primary);
+      transform: translateY(-2px);
     }
   }
 }
@@ -73,8 +86,29 @@ p.lead {
 .dev-icons {
   font-size: 3rem;
   .list-inline-item i {
+    transition: color 0.15s ease;
     &:hover {
-      color: $primary;
+      color: var(--primary);
     }
+  }
+}
+
+hr {
+  border-color: var(--border);
+}
+
+a {
+  transition: color 0.15s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
   }
 }

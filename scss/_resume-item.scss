@@ -3,9 +3,20 @@ section.resume-section {
   padding-bottom: 5rem !important;
   max-width: 75rem;
   .resume-item {
+    padding: 1rem 1.25rem;
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    border-radius: 0.5rem;
+    border-left: 3px solid transparent;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
     .resume-content {}
     .resume-date {
       min-width: none;
+      color: var(--text-muted);
+    }
+    &:hover {
+      border-left-color: var(--primary);
+      background-color: var(--bg-alt);
     }
   }
 }
