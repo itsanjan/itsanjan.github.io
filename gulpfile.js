@@ -4,52 +4,53 @@ const browsersync = require("browser-sync").create();
 const cleanCSS = require("gulp-clean-css");
 const gulp = require("gulp");
 const header = require("gulp-header");
+const merge = require("merge-stream");
 const plumber = require("gulp-plumber");
 const rename = require("gulp-rename");
-const sass = require("gulp-sass");
+const sass = require("gulp-sass")(require("sass"));
 const uglify = require("gulp-uglify");
 const pkg = require('./package.json');
 
 // Set the banner content
 const banner = ['/*!\n',
-  ' * Start Bootstrap - <%= pkg.title %> v<%= pkg.version %> (<%= pkg.homepage %>)\n',
+  ' * <%= pkg.title %> v<%= pkg.version %>\n',
   ' * Copyright 2013-' + (new Date()).getFullYear(), ' <%= pkg.author %>\n',
-  ' * Licensed under <%= pkg.license %> (https://github.com/BlackrockDigital/<%= pkg.name %>/blob/master/LICENSE)\n',
+  ' * Licensed under <%= pkg.license %>\n',
   ' */\n',
   '\n'
 ].join('');
 
 // Copy third party libraries from /node_modules into /vendor
-gulp.task('vendor', function(cb) {
+gulp.task('vendor', function() {
 
   // Bootstrap
-  gulp.src([
+  const bootstrap = gulp.src([
       './node_modules/bootstrap/dist/**/*',
       '!./node_modules/bootstrap/dist/css/bootstrap-grid*',
       '!./node_modules/bootstrap/dist/css/bootstrap-reboot*'
     ])
-    .pipe(gulp.dest('./vendor/bootstrap'))
+    .pipe(gulp.dest('./vendor/bootstrap'));
 
   // Font Awesome
-  gulp.src([
+  const fontawesome = gulp.src([
       './node_modules/@fortawesome/**/*',
     ])
-    .pipe(gulp.dest('./vendor'))
+    .pipe(gulp.dest('./vendor'));
 
   // jQuery
-  gulp.src([
+  const jquery = gulp.src([
       './node_modules/jquery/dist/*',
       '!./node_modules/jquery/dist/core.js'
     ])
-    .pipe(gulp.dest('./vendor/jquery'))
+    .pipe(gulp.dest('./vendor/jquery'));
 
   // jQuery Easing
-  gulp.src([
+  const jqueryEasing = gulp.src([
       './node_modules/jquery.easing/*.js'
     ])
-    .pipe(gulp.dest('./vendor/jquery-easing'))
+    .pipe(gulp.dest('./vendor/jquery-easing'));
 
-  cb();
+  return merge(bootstrap, fontawesome, jquery, jqueryEasing);
 
 });
 
@@ -63,7 +64,7 @@ function css() {
     }))
     .on("error", sass.logError)
     .pipe(autoprefixer({
-      browsers: ['last 2 versions'],
+      overrideBrowserslist: ['last 2 versions'],
       cascade: false
     }))
     .pipe(header(banner, {
