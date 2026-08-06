@@ -1,1 +1,9 @@
 node_modules
+.DS_Store
+npm-debug.log*
+
+# Editor-specific settings
+.vscode/
+
+# Personal/local reference material, not part of the published site
+.airef/
