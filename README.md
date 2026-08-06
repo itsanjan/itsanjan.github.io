@@ -4,6 +4,7 @@ Personal resume/portfolio site, served via GitHub Pages at [itsanjan.github.io](
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/itsanjan/itsanjan.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/itsanjan/itsanjan.github.io/actions/workflows/ci.yml)
+[![Pages deploy](https://github.com/itsanjan/itsanjan.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/itsanjan/itsanjan.github.io/actions/workflows/pages/pages-build-deployment)
 
 ## Development
 
