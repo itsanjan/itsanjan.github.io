@@ -1,15 +1,17 @@
 // Load plugins
-const autoprefixer = require("gulp-autoprefixer");
+const autoprefixer = require("autoprefixer");
 const browsersync = require("browser-sync").create();
-const cleanCSS = require("gulp-clean-css");
+const cssnano = require("cssnano");
 const gulp = require("gulp");
 const header = require("gulp-header");
-const merge = require("merge-stream");
 const plumber = require("gulp-plumber");
+const postcss = require("gulp-postcss");
 const rename = require("gulp-rename");
 const sass = require("gulp-sass")(require("sass"));
 const uglify = require("gulp-uglify");
 const pkg = require('./package.json');
+
+const browserslist = ['last 2 versions'];
 
 // Set the banner content
 const banner = ['/*!\n',
@@ -21,41 +23,24 @@ const banner = ['/*!\n',
 ].join('');
 
 // Copy third party libraries from /node_modules into /vendor
-gulp.task('vendor', function() {
-
-  // Bootstrap
-  const bootstrap = gulp.src([
+function vendorBootstrap() {
+  return gulp.src([
       './node_modules/bootstrap/dist/**/*',
       '!./node_modules/bootstrap/dist/css/bootstrap-grid*',
       '!./node_modules/bootstrap/dist/css/bootstrap-reboot*'
     ])
     .pipe(gulp.dest('./vendor/bootstrap'));
+}
 
-  // Font Awesome
-  const fontawesome = gulp.src([
+function vendorFontAwesome() {
+  return gulp.src([
       './node_modules/@fortawesome/**/*',
     ])
     .pipe(gulp.dest('./vendor'));
+}
 
-  // jQuery
-  const jquery = gulp.src([
-      './node_modules/jquery/dist/*',
-      '!./node_modules/jquery/dist/core.js'
-    ])
-    .pipe(gulp.dest('./vendor/jquery'));
-
-  // jQuery Easing
-  const jqueryEasing = gulp.src([
-      './node_modules/jquery.easing/*.js'
-    ])
-    .pipe(gulp.dest('./vendor/jquery-easing'));
-
-  return merge(bootstrap, fontawesome, jquery, jqueryEasing);
-
-});
-
-// CSS task
-function css() {
+// CSS tasks
+function cssExpanded() {
   return gulp
     .src("./scss/*.scss")
     .pipe(plumber())
@@ -63,20 +48,33 @@ function css() {
       outputStyle: "expanded"
     }))
     .on("error", sass.logError)
-    .pipe(autoprefixer({
-      overrideBrowserslist: ['last 2 versions'],
-      cascade: false
-    }))
+    .pipe(postcss([autoprefixer({ overrideBrowserslist: browserslist })]))
     .pipe(header(banner, {
       pkg: pkg
     }))
     .pipe(gulp.dest("./css"))
+    .pipe(browsersync.stream());
+}
+
+function cssMinified() {
+  return gulp
+    .src("./scss/*.scss")
+    .pipe(plumber())
+    .pipe(sass({
+      outputStyle: "expanded"
+    }))
+    .on("error", sass.logError)
+    .pipe(postcss([
+      autoprefixer({ overrideBrowserslist: browserslist }),
+      cssnano()
+    ]))
     .pipe(rename({
       suffix: ".min"
     }))
-    .pipe(cleanCSS())
-    .pipe(gulp.dest("./css"))
-    .pipe(browsersync.stream());
+    .pipe(header(banner, {
+      pkg: pkg
+    }))
+    .pipe(gulp.dest("./css"));
 }
 
 // JS task
@@ -100,6 +98,9 @@ function js() {
 }
 
 // Tasks
+const vendor = gulp.parallel(vendorBootstrap, vendorFontAwesome);
+const css = gulp.parallel(cssExpanded, cssMinified);
+gulp.task("vendor", vendor);
 gulp.task("css", css);
 gulp.task("js", js);
 
@@ -126,7 +127,7 @@ function watchFiles() {
   gulp.watch("./**/*.html", browserSyncReload);
 }
 
-gulp.task("default", gulp.parallel('vendor', css, js));
+gulp.task("default", gulp.parallel(vendor, css, js));
 
 // dev task
 gulp.task("dev", gulp.parallel(watchFiles, browserSync));

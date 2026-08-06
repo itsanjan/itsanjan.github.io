@@ -11,10 +11,7 @@ This repository contains a personal resume website built from the Start Bootstra
 ## Status
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/BlackrockDigital/startbootstrap-resume/master/LICENSE)
-[![npm version](https://img.shields.io/npm/v/startbootstrap-resume.svg)](https://www.npmjs.com/package/startbootstrap-resume)
-[![Build Status](https://travis-ci.org/BlackrockDigital/startbootstrap-resume.svg?branch=master)](https://travis-ci.org/BlackrockDigital/startbootstrap-resume)
-[![dependencies Status](https://david-dm.org/BlackrockDigital/startbootstrap-resume/status.svg)](https://david-dm.org/BlackrockDigital/startbootstrap-resume)
-[![devDependencies Status](https://david-dm.org/BlackrockDigital/startbootstrap-resume/dev-status.svg)](https://david-dm.org/BlackrockDigital/startbootstrap-resume?type=dev)
+[![CI](https://github.com/itsanjan/itsanjan.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/itsanjan/itsanjan.github.io/actions/workflows/ci.yml)
 
 ## Download and Installation
 
@@ -32,7 +29,40 @@ After downloading, simply edit the HTML and CSS files included with the template
 
 ### Advanced Usage
 
-After installation, run `npm install` and then run `gulp dev` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
+After installation, run `npm install` and then run `npm run dev` or `npm run preview` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
+
+#### Preview built output
+
+To build the site and then preview the generated assets, run:
+
+```bash
+npm run preview:build
+```
+
+This will compile CSS, minify JS, and start a local BrowserSync server serving the built files.
+
+#### Scripts folder helpers
+
+The `scripts/` folder contains helper scripts for macOS/Linux and Windows:
+
+- `scripts/preview.sh` — install deps and run `npm run preview`
+- `scripts/build.sh` — install deps and run `npm run build`
+- `scripts/preview.bat` — Windows preview helper
+- `scripts/build.bat` — Windows build helper
+
+Usage:
+
+```bash
+./scripts/preview.sh
+./scripts/build.sh
+```
+
+On Windows:
+
+```bat
+scripts\preview.bat
+scripts\build.bat
+```
 
 #### Gulp Tasks
 
